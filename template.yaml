@@ -1,0 +1,42 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Globals:
+  Function:
+    AutoPublishAlias: live
+    DeploymentPreference:
+      Type: AllAtOnce
+Parameters:
+  S3Endpoint:
+    Type: String
+    Default: ""
+Resources:
+  ZipFiles:
+    Type: 'AWS::S3::Bucket'
+  Unzip:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: unzip
+      Runtime: go1.x
+      CodeUri: .
+      Environment:
+        Variables:
+          TARGET_S3_ARN: !Sub ${UnzippedFiles.Arn}
+          S3_ENDPOINT: !Ref S3Endpoint
+      Policies:
+        - AmazonS3ReadOnlyAccess
+        - Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - 's3:GetObject'
+                - 's3:PutObject'
+              Resource: !Sub ${UnzippedFiles.Arn}/*
+      Description: Get and Unzip and Put
+      Events:
+        BucketZipFiles:
+          Type: S3
+          Properties:
+            Bucket: !Ref ZipFiles
+            Events: 's3:ObjectCreated:*'
+  UnzippedFiles:
+    Type: 'AWS::S3::Bucket'

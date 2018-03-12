@@ -1,0 +1,6 @@
+{
+  "Unzip": {
+    "S3_ENDPOINT": "http://localstack:4572",
+    "TARGET_S3_ARN": "arn:aws:s3:::unzippedfiles"
+  }
+}
