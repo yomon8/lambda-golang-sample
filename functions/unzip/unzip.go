@@ -124,7 +124,7 @@ func Handler(ctx context.Context, event Event) error {
 			if err != nil {
 				return wrapError(err, step)
 			}
-			logger(src.id, step, fmt.Sprintf("%s uploaded", f.FileInfo().Name()))
+			logger(src.id, step, fmt.Sprintf("%s uploaded to %s", f.FileInfo().Name(), f.Name))
 		}
 	}
 

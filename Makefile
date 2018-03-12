@@ -19,7 +19,7 @@ integrationtest: build
 	aws-sam-local local generate-event s3 --region ap-northeast-1 --bucket zipfiles --key testdata.zip > ./test/env/s3event.json
 	aws-sam-local local invoke Unzip -e ./test/env/s3event.json --env-vars ./test/env/sam-local-env.json \
 		--docker-network $$(docker network ls -q -f name=$(PROJECT_NAME))
-	aws --endpoint-url=http://localhost:4572 s3 cp s3://unzippedfiles/test/data/testdata.txt - | cmp test/data/data.txt -
+	aws --endpoint-url=http://localhost:4572 s3 cp s3://unzippedfiles/test/data/data.txt - | cmp test/data/data.txt -
 	docker-compose -p $(PROJECT_NAME) down
 
 test: 
