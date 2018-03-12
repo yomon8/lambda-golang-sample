@@ -15,7 +15,7 @@ phases:
       - go get -u github.com/awslabs/aws-sam-local 
   build:
     commands:
-      - make test
+      - make integrationtest
   post_build:
     commands:
       - make deploy
