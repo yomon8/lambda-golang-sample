@@ -65,7 +65,7 @@ func TestParse(t *testing.T) {
 	}
 
 	if src.region != "ap-northeast-1" {
-		t.Error("parsed s3 region [%s] invalid", src.region)
+		t.Errorf("parsed s3 region [%s] invalid", src.region)
 	}
 
 }

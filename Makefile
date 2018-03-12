@@ -4,10 +4,10 @@ STACK_NAME := "my-stack"
 
 all: build
 
-build:
+build: unittest
 	for d in $$(ls -d ./functions/*);do GOOS=linux GOARCH=amd64 go build $${d};done
 
-test: build unittest
+test: build 
 	docker-compose down
 	zip -r testdata.zip ./test/data
 	docker-compose up -d
@@ -21,7 +21,7 @@ test: build unittest
 	aws --endpoint-url=http://localhost:4572 s3 cp s3://unzippedfiles/test/data/testdata.txt - | cmp test/data/data.txt -
 	docker-compose down
 
-unittest: build
+unittest: 
 	go test ./functions/...
 	
 deploy:
